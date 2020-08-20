@@ -78,6 +78,13 @@ public class Ecc {
 	public static String parseTransferData(String from, String to, String quantity, String memo) {
 		return Ese.parseTransferData(from, to, quantity, memo);
 	}
+
+
+
+	public static String parseSetCodeData(String account, String vmtype, String vmversion, String code) {
+		return Ese.parseSetCodeData(account, vmtype, vmversion, code);
+	}
+
 	
 	/**
 	 * 

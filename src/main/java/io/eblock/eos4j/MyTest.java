@@ -17,20 +17,37 @@ import java.math.BigInteger;
  * @date 2020/6/10 2:13 下午
  */
 public class MyTest {
-    static Rpc rpc = new Rpc("https://api.testnet.eos.io/");
+
+    // https://api.testnet.eos.io
+    // https://jungle3.cryptolions.io/
+    static Rpc rpc = new Rpc("https://api.testnet.eos.io");
+
+
 
 
     public static void main(String[] args) throws Exception {
 
 
-        String pk = "x";
+        String pk = "";
+
+        String account = "";
+
+        String code = "";
 
 //        createAccount(pk);
         transfer(pk);
+
+//        setCode(pk, account, code);
+    }
+
+    public static void setCode(String pk, String account, String code) throws Exception{
+        final Transaction transaction = rpc.setCode(pk, account, code);
+        System.out.println(transaction);
+        System.out.println(transaction.getTransactionId());
     }
 
     public static void createAccount(String pk) throws Exception{
-        Transaction t2 = rpc.createAccount(pk,"ghpeihmofbws","renrenbitsgx", "EOS6p5SVF6qjU6A15kMNeWqXSU2e6LWg492D4mEJdUwkZRDZVk77c","EOS6p5SVF6qjU6A15kMNeWqXSU2e6LWg492D4mEJdUwkZRDZVk77c", 8192L, "0.1 SYS","0.1 SYS", 0L);
+        Transaction t2 = rpc.createAccount(pk,"ghpeihmofbws","1", "EOS6p5SVF6qjU6A15kMNeWqXSU2e6LWg492D4mEJdUwkZRDZVk77c","EOS6p5SVF6qjU6A15kMNeWqXSU2e6LWg492D4mEJdUwkZRDZVk77c", 8192L, "0.1 SYS","0.1 SYS", 0L);
         System.out.println("创建成功 = " + t2.getTransactionId()+" \n ");
     }
 
@@ -38,13 +55,14 @@ public class MyTest {
         final String s1 = EccTool.privateToPublic(pk);
         System.out.println("public: " + s1);
 
-        final Account account = rpc.getAccount("ghpeihmofbws");
-        ObjectMapper mapper = new ObjectMapper();
-        final String s = mapper.writeValueAsString(account);
-        System.out.println(s);
+//        final Account account = rpc.getAccount("ghpeihmofbws");
+//        ObjectMapper mapper = new ObjectMapper();
+//        final String s = mapper.writeValueAsString(account);
+//        System.out.println(s);
 
         try {
-            Transaction t1 = rpc.transfer(pk, "eosio.token", "ghpeihmofbws", "kipuyzrdxoqq", "0.1000 TNT", "test");
+            Transaction t1 = rpc.transfer(pk, "eosio.token", "kcwimgywoglk", "ghpeihmofbws", "0.0001 TNT",
+                    "111111");
             final String transactionId = t1.getTransactionId();
             System.out.println(transactionId);
         } catch (Exception e) {

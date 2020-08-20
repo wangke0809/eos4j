@@ -152,4 +152,17 @@ public class Ese {
 		}
 		return Hex.bytesToHexString(allbyte);
 	}
+
+	public static String parseSetCodeData(String account, String vmtype, String vmversion, String code) {
+		DataParam[] datas = new DataParam[] {
+				new DataParam(account, DataType.name, Action.setcode),
+				new DataParam(vmtype, DataType.unit8, Action.setcode),
+				new DataParam(vmversion, DataType.unit8, Action.setcode),
+				new DataParam(code, DataType.bytes, Action.setcode), };
+		byte[] allbyte = new byte[] {};
+		for (DataParam value : datas) {
+			allbyte = ByteUtils.concat(allbyte, value.seria());
+		}
+		return Hex.bytesToHexString(allbyte);
+	}
 }

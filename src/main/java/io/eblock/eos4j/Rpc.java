@@ -443,4 +443,39 @@ public class Rpc {
         tx.setExpiration(dateFormatter.format(new Date(1000 * Long.parseLong(tx.getExpiration().toString()))));
         return pushTransaction("none", tx, new String[]{sign});
     }
+
+
+    public Transaction setCode(String pk, String account, String code)
+            throws Exception {
+        ChainInfo info = getChainInfo();
+        Block block = getBlock(info.getLastIrreversibleBlockNum().toString());
+        Tx tx = new Tx();
+        tx.setExpiration(info.getHeadBlockTime().getTime() / 1000 + 60);
+        tx.setRef_block_num(info.getLastIrreversibleBlockNum());
+        tx.setRef_block_prefix(block.getRefBlockPrefix());
+        tx.setNet_usage_words(0L);
+        tx.setMax_cpu_usage_ms(0L);
+        tx.setDelay_sec(0L);
+        // actions
+        List<TxAction> actions = new ArrayList<>();
+        // data
+        Map<String, Object> dataMap = new LinkedHashMap<>();
+        dataMap.put("account", account);
+        dataMap.put("vmtype", 0);
+        dataMap.put("vmversion", 0);
+        dataMap.put("code", code);
+        // action
+        TxAction action = new TxAction(account, "eosio", "setcode", dataMap);
+        actions.add(action);
+        tx.setActions(actions);
+        // sgin
+        String sign = Ecc.signTransaction(pk, new TxSign(info.getChainId(), tx));
+        // data parse
+        String data = Ecc.parseSetCodeData(account, "0", "0", code);
+        // reset data
+        action.setData(data);
+        // reset expiration
+        tx.setExpiration(dateFormatter.format(new Date(1000 * Long.parseLong(tx.getExpiration().toString()))));
+        return pushTransaction("none", tx, new String[]{sign});
+    }
 }

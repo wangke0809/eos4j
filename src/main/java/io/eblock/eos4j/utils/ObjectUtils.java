@@ -126,6 +126,12 @@ public class ObjectUtils {
 					bf.concat(ByteUtils.writeName(obj.toString()));
 				}else if ("close-symbol".equals(key)) {
 					bf.concat(ByteUtils.writerSymbol(obj.toString()));
+				}else if ("vmtype".equals(key)){
+					bf.concat(ByteUtils.writerUnit8(obj.toString()));
+				}else if ("vmversion".equals(key)){
+					bf.concat(ByteUtils.writerUnit8(obj.toString()));
+				}else if ("code".equals(key)){
+					bf.concat(ByteUtils.writeBytes(obj.toString()));
 				}
 			}
 		}
